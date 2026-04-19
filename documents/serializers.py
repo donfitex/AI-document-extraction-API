@@ -5,4 +5,4 @@ class DocumentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Document
         fields = "__all__"
-        read_only_fields = ["status", "extracted_data"]
+        read_only_fields = ["user","status", "extracted_data"]
