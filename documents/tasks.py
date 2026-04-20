@@ -1,9 +1,12 @@
 import pytesseract
+import os
 from PIL import Image
 from celery import shared_task
 from .models import Document
 
 pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+
+os.environ["TESSDATA_PREFIX"] = r"C:\Program Files\Tesseract-OCR\tessdata"
 
 @shared_task
 def process_document(document_id):
