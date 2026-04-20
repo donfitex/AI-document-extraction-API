@@ -1,5 +1,8 @@
+import pytesseract
 from celery import shared_task
 from .models import Document
+
+pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
 @shared_task
 def process_document(document_id):
