@@ -2,6 +2,7 @@ import pytesseract
 import os
 from PIL import Image
 from pdf2image import convert_from_path
+from .utils import extract_structured_data
 from celery import shared_task
 from .models import Document
 
@@ -36,12 +37,16 @@ def process_document(document_id):
             # Extract text
             extracted_text = pytesseract.image_to_string(image)
 
+        structured = extract_structured_data(extracted_text)
+
         doc.extracted_data = {
-            "text": extracted_text.strip()
+            "raw_text": extracted_text.strip(),
+            "structured": structured
         }
 
         doc.status = "completed"
 
+    # Handle any exceptions that occur during processing
     except Exception as e:
         doc.status = "failed"
         doc.extracted_data = {"error": str(e)}
